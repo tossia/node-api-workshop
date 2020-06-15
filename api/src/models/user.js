@@ -1,5 +1,5 @@
 /**
- * Article model
+ * User model
  */
 
 'use strict';
@@ -12,10 +12,10 @@ const Schema = mongoose.Schema;
 \*----------------------------------------------------------------------------*/
 
 /**
- * Article Schema
- * @constructor Article
+ * User Schema
+ * @constructor User
  */
-const ArticleSchema = new Schema(/** @lends Article.prototype */ {
+const UserSchema = new Schema(/** @lends User.prototype */ {
   // meta data
   createdAt: {
     type: Date,
@@ -27,30 +27,24 @@ const ArticleSchema = new Schema(/** @lends Article.prototype */ {
     default: Date.now,
   },
 
-  title: {
+  username: {
     type: String,
     required: true,
     minLength: 2,
-    maxLength: 20,
+    maxLength: 10,
+    unique: true,
   },
 
-  content: {
+  email: {
     type: String,
-    required: true,
-    minLength: 1,
-    maxLength: 5000,
+    minLength: 5,
+    maxLength: 30,
   },
 
-  author: {
-    type: String,
-    minLength: 2,
-    maxLength: 20,
-  },
-
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User',
-  },
+  articles: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Article',
+  }],
 }, {
   timestamps: true,
 });
@@ -60,7 +54,7 @@ const ArticleSchema = new Schema(/** @lends Article.prototype */ {
   Increase
 \*----------------------------------------------------------------------------*/
 
-ArticleSchema.virtual('id').get(function() {
+UserSchema.virtual('id').get(function() {
   return this._id.toString();
 });
 
@@ -69,9 +63,9 @@ ArticleSchema.virtual('id').get(function() {
 \*----------------------------------------------------------------------------*/
 
 // JSON serialization
-ArticleSchema.set('toJSON', {
+UserSchema.set('toJSON', {
   getters: true,
   virtuals: true,
 });
 
-module.exports = mongoose.model('Article', ArticleSchema);
+module.exports = mongoose.model('User', UserSchema);
