@@ -19,6 +19,12 @@ Enter in the API container:
 docker-compose exec api bash
 ```
 
+Then, install packages (dependencies) :
+
+```sh
+yarn
+```
+
 Then, start the API server in `development` environment:
 
 ```sh
