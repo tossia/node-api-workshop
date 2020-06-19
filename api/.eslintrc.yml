@@ -13,6 +13,13 @@ env:
 
 # Global scoped method and vars
 globals:
+  describe: false
+  context: false
+  it: false
+  after: false
+  after_each: false
+  before: false
+  before_each: false
   requireAll: false
   mongoose: false
   api : false
