@@ -17,7 +17,8 @@
   "main": "./src/app.js",
   "scripts": {
     "start": "NODE_ENV=production DEBUG=info,warn,error node ./src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "./bin/run-dev",
+    "test": "npx mocha ./test"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
