@@ -6,13 +6,13 @@ const {Article} = require('./config');
 const { createArticle } = require('./helpers');
 
 describe('Articles', function() {
-  before(connectMongoDB);
+  before(function(done) {
+    connectMongoDB(done);
+  });
 
-  // Same as:
-  // after(function(done) {
-  //   closeMongoDB(done);
-  // });
-  after(closeMongoDB);
+  after(function(done) {
+    closeMongoDB(done);
+  });
 
   beforeEach(function(done) {
     Article
