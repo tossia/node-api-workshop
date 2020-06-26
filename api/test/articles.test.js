@@ -6,6 +6,7 @@ const {Article} = require('./config');
 const { createArticle } = require('./helpers');
 
 describe('Articles', function() {
+
   before(function(done) {
     connectMongoDB(done);
   });
@@ -22,7 +23,7 @@ describe('Articles', function() {
   });
 
   it('should create an article', async function() {
-    const res = await test
+    let res = await test
       .httpAgent(apiUrl)
       .post('/articles')
       .send({title: 'article de test', content: 'le contenu article test'})
@@ -44,8 +45,7 @@ describe('Articles', function() {
       .bool(article.createdAt <= Date.now)
 
       .string(article.updatedAt)
-      .isEqualTo(article.createdAt)
-    ;
+      .isEqualTo(article.createdAt);
   });
 
   it('should update an article', async function() {
@@ -121,23 +121,27 @@ describe('Articles', function() {
     article.content.should.equal(createdArticle.content);
   });
 
-  it('should show one article', async function() {
-    let createdArticle, article, res;
+it('should get only one article', async function() {
+  let createdArticle, articleUp, res;
 
-    createdArticle = await createArticle();
-    createdArticle.id.should.be.String();
+  createdArticle = await createArticle();
+  createdArticle.id.should.be.String();
     // Mongo ID should be 24 chars
-    createdArticle.id.length.should.be.equal(24);
+  //articleUp.id.length.should.be.equal(24);
+  createdArticle.id.length.should.be.equal(24);
 
-    res = await test
-      .httpAgent(apiUrl)
-      .get('/articles/' + createdArticle.id)
-      .expect('Content-Type', /json/)
-      .expect(200);
+  res =  await test
+    .httpAgent(apiUrl)
+    .get('/articles/' + createdArticle.id)
+    .expect('Content-Type', /json/)
+    .expect(200);
 
-    article = res.body;
-    article.id.should.be.equal(createdArticle.id);
-    article.title.should.be.equal(createdArticle.title);
-    article.content.should.be.equal(createdArticle.content);
+  articleUp = res.body;
+
+  articleUp.should.be.an.Object();
+  articleUp.id.should.equal(createdArticle.id);
+  articleUp.title.should.equal(createdArticle.title);
+  articleUp.content.should.equal(createdArticle.content);
+
   });
 });
