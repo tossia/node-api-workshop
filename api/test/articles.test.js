@@ -4,6 +4,7 @@
 const test = require('unit.js');
 const {Article} = require('./config');
 const { createArticle } = require('./helpers');
+const { create } = require('../src/models/user');
 
 describe('Articles', function() {
   before(function(done) {
@@ -74,5 +75,25 @@ describe('Articles', function() {
     article.id.should.equal(createdArticle.id);
     article.title.should.equal(createdArticle.title);
     article.content.should.equal(createdArticle.content);
+  });
+
+  it('should show one article', async function() {
+    let createdArticle, article, res;
+
+    createdArticle = await createArticle();
+    createdArticle.id.should.be.String();
+    // Mongo ID should be 24 chars
+    createdArticle.id.length.should.be.equal(24);
+
+    res = await test
+      .httpAgent(apiUrl)
+      .get('/articles/' + createdArticle.id)
+      .expect('Content-Type', /json/)
+      .expect(200);
+
+    article = res.body;
+    article.id.should.be.equal(createdArticle.id);
+    article.title.should.be.equal(createdArticle.title);
+    article.content.should.be.equal(createdArticle.content);
   });
 });
