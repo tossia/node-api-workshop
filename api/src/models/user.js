@@ -4,6 +4,9 @@
 
 'use strict';
 
+// eslint-disable-next-line no-redeclare
+let mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 
 

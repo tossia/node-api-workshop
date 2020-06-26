@@ -2,7 +2,7 @@
 
 // load Unit.js module
 const test = require('unit.js');
-const {assert} = test;
+// const {assert} = test;
 
 describe('Ma demo', function() {
   it('example devrait être une string', function() {

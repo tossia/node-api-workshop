@@ -106,10 +106,7 @@ connectMongoose()
     logInfo('server listening on port 3000');
   })
   .catch((err) => {
-    setTimeout(() => {
-      logError(err);
-      logWarn('closing the process...');
-    }, 1000);
+    logError(err);
   });
 
 // Event handler, called on the current process ends.
