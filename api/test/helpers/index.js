@@ -17,4 +17,22 @@ function createArticle(article) {
   return Article.create(article);
 }
 
-module.exports = {createArticle};
+//module.exports = {createArticle};
+
+
+const { User } = require('../config');
+
+function createUser(user) {
+  let defaultUser= {
+    username: 'Vasya',
+    email: 'vasya.pupkin@mail.com',
+  };
+
+  if (!user) {
+    user = defaultUser;
+  }
+
+  return User.create(user);
+}
+
+module.exports = {createArticle, createUser};
