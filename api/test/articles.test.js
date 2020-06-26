@@ -4,7 +4,6 @@
 const test = require('unit.js');
 const {Article} = require('./config');
 const { createArticle } = require('./helpers');
-const { create } = require('../src/models/user');
 
 describe('Articles', function() {
   before(function(done) {
@@ -47,6 +46,51 @@ describe('Articles', function() {
       .string(article.updatedAt)
       .isEqualTo(article.createdAt)
     ;
+  });
+
+  it('should update an article', async function() {
+    let createdArticle = await createArticle();
+
+    const res = await test
+      .httpAgent(apiUrl)
+      .put('/articles/' + createdArticle.id)
+      .send({title: 'mon titre modifié', content: 'le contenu modifié'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200);
+
+    let article = res.body;
+
+    article.should.be.an.Object();
+    // Mongo ID should be 24 chars
+    article.id.length.should.be.equal(24);
+    article.title.should.equal('mon titre modifié');
+    article.content.should.equal('le contenu modifié');
+    test.assert(article.createdAt < article.updatedAt);
+    test.assert(createdArticle.updatedAt !== article.updatedAt);
+  });
+
+  it('should delete an article', async function() {
+    let createdArticle = await createArticle();
+
+    const res = await test
+      .httpAgent(apiUrl)
+      .delete('/articles/' + createdArticle.id)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200);
+
+    let article = res.body;
+
+    article.should.be.an.Object();
+    // Mongo ID should be 24 chars
+    article.id.length.should.be.equal(24);
+    article.title.should.equal(createdArticle.title);
+    article.content.should.equal(createdArticle.content);
+
+    let foundArticle = await Article.findById(createdArticle.id);
+
+    test.assert(!foundArticle);
   });
 
   it('should list all articles', async function() {
