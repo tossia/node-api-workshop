@@ -18,7 +18,7 @@
   "scripts": {
     "start": "NODE_ENV=production DEBUG=info,warn,error node ./src/app.js",
     "dev": "./bin/run-dev",
-    "test": "npx mocha ./test/**/*.test.js"
+    "test": "npx mocha ./test/**/*.test.js --timeout 5000"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
