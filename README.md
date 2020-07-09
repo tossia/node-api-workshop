@@ -3,7 +3,8 @@
 > This repo is a material for my courses I teach around Node.js.
 > Only my students are allowed to use it as part of their learning.
 
-* https://github.com/ntalle-support/node-api-workshop
+> * https://github.com/ntalle-support/node-api-workshop
+* https://github.com/tossia/node-api-workshop
 
 ## Usage
 
