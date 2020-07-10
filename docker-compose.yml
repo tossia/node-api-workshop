@@ -1,8 +1,8 @@
 # version: '3.4'
 
 /*
-networks:
-  backend:
+# networks:
+#  backend:
 */
 - task: AzureRmWebAppDeployment@4
   inputs:
